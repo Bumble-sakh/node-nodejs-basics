@@ -14,7 +14,7 @@ const list = async () => {
     }
   });
 
-  fileList.forEach((file) => console.log(file));
+  console.log(fileList);
 };
 
 await list();
