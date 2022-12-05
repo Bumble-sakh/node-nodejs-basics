@@ -11,7 +11,7 @@ const createWorker = (path, workerData) => {
     const worker = new Worker(path, { workerData });
 
     worker.on('message', (data) => resolve({ status: 'resolved', data }));
-    worker.on('error', (data) => reject({ status: 'error', data: null }));
+    worker.on('error', () => resolve({ status: 'error', data: null }));
     worker.on('exit', (code) => {
       if (code !== 0) reject({ status: 'error', data: null });
     });
@@ -28,7 +28,7 @@ const performCalculations = async () => {
     workers.push(worker);
   }
 
-  Promise.allSettled(workers).then((results) => console.log(results.map((result) => result.value || result.reason)));
+  Promise.allSettled(workers).then((results) => console.log(results.map((result) => result.value)));
 };
 
 await performCalculations();
